@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>চিঠি - বাংলার সামাজিক যোগাযোগ</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #C8102E;
+  --red-dark: #9B0B22;
+  --red-light: #E8304A;
+  --green: #006A4E;
+  --green-dark: #004D38;
+  --green-light: #00875F;
+  --gold: #F4C430;
+  --gold-light: #FFD966;
+  --cream: #FFF8F0;
+  --white: #FFFFFF;
+  --gray-1: #F5F5F0;
+  --gray-2: #E8E8E0;
+  --gray-3: #BCBCB0;
+  --text-dark: #1A1A1A;
+  --text-mid: #444440;
+  --shadow: 0 4px 24px rgba(0,0,0,0.10);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.16);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Hind Siliguri', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== WATERMARK BACKGROUND ===== */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3C!-- Royal Bengal Tiger silhouette --%3E%3Cpath d='M40 130 Q50 80 80 70 Q100 65 120 75 Q145 85 150 110 Q155 135 140 150 Q120 165 95 160 Q65 155 40 130Z' fill='%23006A4E' opacity='0.04'/%3E%3Cpath d='M85 68 Q90 55 100 52 Q110 55 115 68' fill='none' stroke='%23006A4E' stroke-width='2' opacity='0.04'/%3E%3Ccircle cx='90' cy='72' r='3' fill='%23006A4E' opacity='0.04'/%3E%3Ccircle cx='110' cy='72' r='3' fill='%23006A4E' opacity='0.04'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3C!-- Shapla/Water Lily --%3E%3Ccircle cx='80' cy='80' r='15' fill='%23C8102E' opacity='0.045'/%3E%3Cellipse cx='80' cy='55' rx='10' ry='22' fill='%23C8102E' opacity='0.04'/%3E%3Cellipse cx='80' cy='105' rx='10' ry='22' fill='%23C8102E' opacity='0.04'/%3E%3Cellipse cx='55' cy='80' rx='22' ry='10' fill='%23C8102E' opacity='0.04'/%3E%3Cellipse cx='105' cy='80' rx='22' ry='10' fill='%23C8102E' opacity='0.04'/%3E%3Cellipse cx='62' cy='62' rx='10' ry='20' transform='rotate(45 62 62)' fill='%23C8102E' opacity='0.035'/%3E%3Cellipse cx='98' cy='62' rx='10' ry='20' transform='rotate(-45 98 62)' fill='%23C8102E' opacity='0.035'/%3E%3Cellipse cx='62' cy='98' rx='10' ry='20' transform='rotate(-45 62 98)' fill='%23C8102E' opacity='0.035'/%3E%3Cellipse cx='98' cy='98' rx='10' ry='20' transform='rotate(45 98 98)' fill='%23C8102E' opacity='0.035'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3C!-- Doyel bird --%3E%3Cellipse cx='70' cy='65' rx='25' ry='14' fill='%23006A4E' opacity='0.04'/%3E%3Ccircle cx='88' cy='55' r='10' fill='%23006A4E' opacity='0.04'/%3E%3Cpath d='M95 50 Q105 45 108 48 Q106 54 98 55' fill='%23006A4E' opacity='0.04'/%3E%3Cpath d='M45 72 Q35 80 32 75 Q40 68 50 70' fill='%23006A4E' opacity='0.04'/%3E%3Cpath d='M60 79 Q55 90 50 95 Q65 88 70 80' fill='%23006A4E' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 280px 280px, 220px 220px, 180px 180px;
+  background-position: 0 0, 140px 140px, 60px 60px;
+  background-repeat: repeat;
+}
+
+/* ===== PAGES ===== */
+.page { display:none; position:relative; z-index:1; }
+.page.active { display:block; }
+
+/* ===== AUTH PAGES ===== */
+.auth-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 40%, var(--red-dark) 80%, var(--red) 100%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+
+.auth-bg::before {
+  content:'';
+  position:absolute; inset:0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cellipse cx='200' cy='200' rx='60' ry='28' fill='none' stroke='%23ffffff' stroke-width='1.5' opacity='0.07'/%3E%3Cellipse cx='200' cy='200' rx='60' ry='28' fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.05' transform='rotate(45 200 200)'/%3E%3Cellipse cx='200' cy='200' rx='60' ry='28' fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.05' transform='rotate(90 200 200)'/%3E%3Cellipse cx='200' cy='200' rx='60' ry='28' fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.05' transform='rotate(135 200 200)'/%3E%3Ccircle cx='200' cy='200' r='22' fill='%23C8102E' opacity='0.18'/%3E%3C/svg%3E") center/300px repeat;
+}
+
+.auth-card {
+  background: rgba(255,255,255,0.97);
+  border-radius: 24px;
+  padding: 44px 40px;
+  width: 100%; max-width: 440px;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.35);
+  position: relative; z-index:2;
+  border-top: 5px solid var(--red);
+}
+
+.auth-logo {
+  text-align: center; margin-bottom: 28px;
+}
+.auth-logo .logo-text {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 52px; font-weight: 700;
+  background: linear-gradient(135deg, var(--green) 0%, var(--red) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  letter-spacing: -2px; line-height: 1;
+}
+.auth-logo .tagline {
+  font-size: 13px; color: var(--gray-3); margin-top: 4px; letter-spacing: 0.5px;
+}
+
+.auth-tabs {
+  display: flex; gap:0; margin-bottom: 28px;
+  border-radius: var(--radius-sm); overflow:hidden; border: 1.5px solid var(--gray-2);
+}
+.auth-tab {
+  flex:1; padding: 10px; text-align:center; font-size: 14px; font-weight:600;
+  cursor:pointer; color: var(--gray-3); background: var(--white); transition: all 0.2s;
+  font-family:'Hind Siliguri',sans-serif;
+}
+.auth-tab.active { background: var(--red); color: white; }
+
+.form-group { margin-bottom: 16px; }
+.form-group label { display:block; font-size:13px; font-weight:600; color:var(--text-mid); margin-bottom:6px; }
+.form-group input, .form-group select {
+  width:100%; padding: 12px 16px; border: 1.5px solid var(--gray-2);
+  border-radius: var(--radius-sm); font-size: 15px; font-family:'Hind Siliguri',sans-serif;
+  background: var(--white); color: var(--text-dark); transition: border-color 0.2s;
+  outline:none;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--red); }
+
+.gender-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.gender-option {
+  border: 2px solid var(--gray-2); border-radius: var(--radius-sm);
+  padding: 14px 10px; text-align:center; cursor:pointer; transition:all 0.2s;
+}
+.gender-option:hover { border-color: var(--red); }
+.gender-option.selected { border-color: var(--red); background: #FFF0F2; }
+.gender-option .g-icon { font-size:28px; display:block; margin-bottom:4px; }
+.gender-option .g-label { font-size:13px; font-weight:600; color:var(--text-mid); }
+
+.btn-primary {
+  width:100%; padding: 14px; background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+  color:white; border:none; border-radius: var(--radius-sm); font-size:16px; font-weight:700;
+  cursor:pointer; font-family:'Hind Siliguri',sans-serif; transition: all 0.2s;
+  letter-spacing: 0.3px; margin-top: 8px;
+}
+.btn-primary:hover { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(200,16,46,0.4); }
+
+.age-note {
+  background: linear-gradient(135deg, #FFF8E7, #FFF0F2);
+  border: 1px solid var(--gold);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px; font-size: 12.5px; color: var(--text-mid);
+  margin-top: 14px; text-align:center;
+}
+
+/* ===== MAIN LAYOUT ===== */
+.main-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr 280px;
+  gap: 0; min-height: 100vh;
+}
+
+/* ===== SIDEBAR LEFT ===== */
+.sidebar-left {
+  background: linear-gradient(180deg, var(--green-dark) 0%, var(--green) 100%);
+  position: sticky; top:0; height: 100vh;
+  display: flex; flex-direction: column;
+  padding: 0; overflow-y:auto;
+}
+.sidebar-logo {
+  padding: 24px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.sidebar-logo .logo-text {
+  font-family:'Noto Serif Bengali',serif;
+  font-size: 36px; font-weight:700;
+  color:white; letter-spacing:-1px;
+}
+.sidebar-logo .logo-sub { font-size:11px; color:rgba(255,255,255,0.6); margin-top:2px; }
+
+.user-mini-profile {
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  display:flex; align-items:center; gap:12px;
+}
+.avatar-sm {
+  width:44px; height:44px; border-radius:50%;
+  background: var(--red); display:flex; align-items:center; justify-content:center;
+  font-size:18px; color:white; font-weight:700; flex-shrink:0;
+  border: 2.5px solid rgba(255,255,255,0.4);
+}
+.user-mini-info .name { font-size:14px; font-weight:600; color:white; }
+.user-mini-info .status { font-size:11px; color:rgba(255,255,255,0.6); }
+.status-dot { display:inline-block; width:7px; height:7px; background:#4CAF50; border-radius:50%; margin-right:4px; }
+
+.nav-section { padding: 16px 12px 8px; }
+.nav-section-title { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.45); padding: 0 10px; margin-bottom: 8px; }
+.nav-item {
+  display:flex; align-items:center; gap:12px;
+  padding: 11px 12px; border-radius: 10px;
+  color: rgba(255,255,255,0.85); font-size:14.5px; font-weight:500;
+  cursor:pointer; transition:all 0.2s; margin-bottom:2px;
+}
+.nav-item:hover { background: rgba(255,255,255,0.12); color:white; }
+.nav-item.active { background: var(--red); color:white; }
+.nav-item .nav-icon { font-size:20px; width:24px; text-align:center; }
+.nav-badge {
+  margin-left:auto; background:var(--red); color:white;
+  font-size:11px; font-weight:700; padding:2px 7px; border-radius:10px;
+}
+
+.logout-btn {
+  margin-top:auto; padding:16px 20px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+.logout-btn button {
+  width:100%; padding:10px; background:rgba(200,16,46,0.3);
+  border:1px solid rgba(200,16,46,0.5); color:white; border-radius:8px;
+  font-size:13px; cursor:pointer; font-family:'Hind Siliguri',sans-serif;
+  transition:all 0.2s;
+}
+.logout-btn button:hover { background:var(--red); }
+
+/* ===== MAIN FEED ===== */
+.main-feed {
+  padding: 0; border-left: 1px solid var(--gray-2); border-right: 1px solid var(--gray-2);
+}
+
+.feed-header {
+  position:sticky; top:0; z-index:10;
+  background: rgba(255,248,240,0.96); backdrop-filter:blur(12px);
+  border-bottom: 2px solid var(--gray-2);
+  padding: 14px 20px;
+  display:flex; align-items:center; gap:12px;
+}
+.feed-header h2 { font-family:'Noto Serif Bengali',serif; font-size:20px; font-weight:700; color:var(--green-dark); }
+.section-badge {
+  padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:0.5px;
+}
+.badge-male { background:linear-gradient(135deg,#1565C0,#1976D2); color:white; }
+.badge-female { background:linear-gradient(135deg,var(--red),#E91E63); color:white; }
+.badge-junior { background:linear-gradient(135deg,var(--green),var(--green-light)); color:white; }
+
+/* ===== POST COMPOSER ===== */
+.post-composer {
+  background:white; padding:20px; border-bottom: 2px solid var(--gray-2);
+  margin: 0;
+}
+.composer-top { display:flex; gap:12px; align-items:flex-start; }
+.composer-avatar {
+  width:46px; height:46px; border-radius:50%;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));
+  display:flex; align-items:center; justify-content:center;
+  color:white; font-size:18px; font-weight:700; flex-shrink:0;
+  border:2.5px solid var(--red-light);
+}
+.composer-input {
+  flex:1; border:1.5px solid var(--gray-2); border-radius:24px;
+  padding:12px 18px; font-size:14px; font-family:'Hind Siliguri',sans-serif;
+  resize:none; outline:none; min-height:46px; transition:all 0.2s;
+  background:var(--gray-1); color:var(--text-dark);
+}
+.composer-input:focus { border-color:var(--red); background:white; min-height:90px; }
+.composer-actions {
+  display:flex; align-items:center; gap:8px; margin-top:12px; padding-left:58px;
+}
+.action-btn {
+  padding:7px 14px; border:1.5px solid var(--gray-2); background:white;
+  border-radius:20px; font-size:12.5px; cursor:pointer; color:var(--text-mid);
+  font-family:'Hind Siliguri',sans-serif; font-weight:500; transition:all 0.2s;
+  display:flex; align-items:center; gap:5px;
+}
+.action-btn:hover { border-color:var(--red); color:var(--red); }
+.post-btn {
+  margin-left:auto; padding:8px 24px;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));
+  color:white; border:none; border-radius:20px; font-size:13px;
+  font-weight:700; cursor:pointer; font-family:'Hind Siliguri',sans-serif;
+  transition:all 0.2s;
+}
+.post-btn:hover { box-shadow:0 4px 16px rgba(200,16,46,0.35); }
+
+/* ===== STORY BAR ===== */
+.stories-bar {
+  display:flex; gap:12px; padding: 16px 20px;
+  background:white; border-bottom:2px solid var(--gray-2);
+  overflow-x:auto; scrollbar-width:none;
+}
+.stories-bar::-webkit-scrollbar { display:none; }
+.story-item {
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  cursor:pointer; flex-shrink:0;
+}
+.story-ring {
+  width:58px; height:58px; border-radius:50%;
+  background:linear-gradient(135deg,var(--red),var(--gold),var(--green));
+  padding:2.5px; transition:transform 0.2s;
+}
+.story-ring:hover { transform:scale(1.08); }
+.story-avatar {
+  width:100%; height:100%; border-radius:50%; background:white;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; border:2px solid white;
+}
+.story-name { font-size:11px; font-weight:500; color:var(--text-mid); text-align:center; max-width:58px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.add-story .story-ring {
+  background:linear-gradient(135deg,var(--green),var(--green-light));
+}
+
+/* ===== POSTS ===== */
+.post-card {
+  background:white; border-bottom:1.5px solid var(--gray-2);
+  padding:0; animation:fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+.post-header {
+  display:flex; align-items:center; gap:12px; padding:16px 20px 12px;
+}
+.post-avatar {
+  width:44px; height:44px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:17px; font-weight:700; color:white; flex-shrink:0;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));
+}
+.post-meta .post-name { font-size:14.5px; font-weight:700; color:var(--text-dark); }
+.post-meta .post-time { font-size:12px; color:var(--gray-3); }
+.post-more { margin-left:auto; font-size:20px; cursor:pointer; color:var(--gray-3); padding:4px 8px; border-radius:6px; }
+.post-more:hover { background:var(--gray-1); }
+
+.post-content { padding:0 20px 14px; font-size:14.5px; line-height:1.7; color:var(--text-dark); }
+.post-image {
+  width:100%; max-height:380px; object-fit:cover;
+  background:linear-gradient(135deg,var(--gray-2),var(--gray-1));
+  display:flex; align-items:center; justify-content:center; font-size:40px;
+}
+.post-image-placeholder {
+  width:100%; height:220px;
+  background:linear-gradient(135deg,#f0f9f6,#fff0f2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:48px;
+}
+
+.post-stats {
+  display:flex; gap:4px; padding:8px 20px;
+  border-top:1px solid var(--gray-2);
+  color:var(--gray-3); font-size:12.5px;
+}
+.stat-tag {
+  display:inline-flex; align-items:center; gap:4px;
+  background:var(--gray-1); padding:3px 9px; border-radius:12px;
+}
+
+.post-actions {
+  display:flex; border-top:1px solid var(--gray-2);
+}
+.post-action {
+  flex:1; padding:10px; display:flex; align-items:center; justify-content:center;
+  gap:6px; font-size:13px; font-weight:600; color:var(--text-mid);
+  cursor:pointer; transition:all 0.2s; border:none; background:none;
+  font-family:'Hind Siliguri',sans-serif;
+}
+.post-action:hover { background:var(--gray-1); }
+.post-action.liked { color:var(--red); }
+.post-action.shared { color:var(--green); }
+
+/* ===== RIGHT SIDEBAR ===== */
+.sidebar-right { padding: 20px 16px; overflow-y:auto; }
+
+.widget-card {
+  background:white; border-radius:var(--radius); padding:18px;
+  margin-bottom:16px; border:1.5px solid var(--gray-2);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.widget-title {
+  font-family:'Noto Serif Bengali',serif;
+  font-size:15px; font-weight:700; color:var(--green-dark);
+  margin-bottom:14px; display:flex; align-items:center; gap:8px;
+  padding-bottom:10px; border-bottom:2px solid var(--gray-2);
+}
+.widget-title::before {
+  content:''; width:4px; height:18px; background:var(--red); border-radius:2px;
+}
+
+.suggest-item {
+  display:flex; align-items:center; gap:10px; margin-bottom:12px;
+}
+.suggest-avatar {
+  width:40px; height:40px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; color:white; font-weight:700;
+}
+.suggest-info .sname { font-size:13.5px; font-weight:600; color:var(--text-dark); }
+.suggest-info .smutual { font-size:11.5px; color:var(--gray-3); }
+.follow-btn {
+  margin-left:auto; padding:5px 14px;
+  border:1.5px solid var(--red); color:var(--red);
+  background:white; border-radius:16px; font-size:12px; font-weight:700;
+  cursor:pointer; font-family:'Hind Siliguri',sans-serif; transition:all 0.2s;
+  white-space:nowrap;
+}
+.follow-btn:hover { background:var(--red); color:white; }
+.follow-btn.following { background:var(--green); color:white; border-color:var(--green); }
+
+.trend-item {
+  display:flex; align-items:center; gap:10px; padding:8px 0;
+  border-bottom:1px solid var(--gray-2); cursor:pointer;
+}
+.trend-item:last-child { border-bottom:none; }
+.trend-num { font-size:11px; color:var(--gray-3); width:16px; }
+.trend-text .t-tag { font-size:13px; font-weight:700; color:var(--text-dark); }
+.trend-text .t-count { font-size:11px; color:var(--gray-3); }
+.trend-icon { margin-left:auto; font-size:16px; }
+
+/* ===== MODAL OVERLAY ===== */
+.modal-overlay {
+  display:none; position:fixed; inset:0; z-index:1000;
+  background:rgba(0,0,0,0.6); backdrop-filter:blur(4px);
+  align-items:center; justify-content:center;
+}
+.modal-overlay.open { display:flex; }
+.modal-box {
+  background:white; border-radius:20px; width:90%; max-width:500px;
+  max-height:90vh; overflow-y:auto;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+  border-top:5px solid var(--red);
+}
+.modal-header {
+  padding:20px 24px 16px; border-bottom:1.5px solid var(--gray-2);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.modal-header h3 { font-family:'Noto Serif Bengali',serif; font-size:20px; font-weight:700; color:var(--green-dark); }
+.modal-close { font-size:24px; cursor:pointer; color:var(--gray-3); padding:4px; }
+.modal-close:hover { color:var(--red); }
+.modal-body { padding:24px; }
+
+/* ===== ACCESS DENIED ===== */
+.access-denied {
+  text-align:center; padding:60px 40px;
+  background:white; border-radius:var(--radius);
+  border:2px dashed var(--red);
+}
+.access-denied .lock-icon { font-size:60px; margin-bottom:16px; }
+.access-denied h3 { font-family:'Noto Serif Bengali',serif; font-size:22px; color:var(--red); margin-bottom:10px; }
+.access-denied p { font-size:14px; color:var(--text-mid); line-height:1.7; }
+
+/* ===== NOTIFICATION TOAST ===== */
+.toast {
+  position:fixed; bottom:30px; right:30px; z-index:9999;
+  background:var(--green-dark); color:white; padding:14px 22px;
+  border-radius:12px; font-size:14px; font-weight:500;
+  box-shadow:0 8px 30px rgba(0,0,0,0.25);
+  animation: slideUp 0.3s ease; display:none;
+}
+.toast.show { display:block; }
+@keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+/* ===== GENDER SECTION FILTER ===== */
+.section-tabs {
+  display:flex; background:white; border-bottom:2px solid var(--gray-2);
+  padding:0 20px; gap:0;
+}
+.sec-tab {
+  padding:12px 18px; font-size:13.5px; font-weight:700; cursor:pointer;
+  color:var(--gray-3); border-bottom:3px solid transparent; margin-bottom:-2px;
+  transition:all 0.2s; font-family:'Hind Siliguri',sans-serif;
+}
+.sec-tab.active-m { color:var(--green-dark); border-bottom-color:var(--green-dark); }
+.sec-tab.active-f { color:var(--red); border-bottom-color:var(--red); }
+.sec-tab.active-j { color:var(--gold); border-bottom-color:var(--gold); }
+.sec-tab:hover { color:var(--text-dark); }
+
+/* ===== PROFILE PAGE ===== */
+.profile-cover {
+  height:200px; background:linear-gradient(135deg,var(--green-dark),var(--red));
+  position:relative; border-radius:0;
+}
+.profile-cover .cover-pattern {
+  position:absolute; inset:0; opacity:0.2;
+  background: repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,0.1) 10px,rgba(255,255,255,0.1) 20px);
+}
+.profile-info-bar {
+  background:white; padding:0 20px 16px; border-bottom:2px solid var(--gray-2);
+  position:relative;
+}
+.profile-big-avatar {
+  width:88px; height:88px; border-radius:50%;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));
+  border:4px solid white; margin-top:-44px; position:relative;
+  display:flex; align-items:center; justify-content:center;
+  font-size:34px; color:white; font-weight:700;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2);
+}
+.profile-name { font-family:'Noto Serif Bengali',serif; font-size:22px; font-weight:700; color:var(--text-dark); margin-top:10px; }
+.profile-handle { font-size:13px; color:var(--gray-3); }
+.profile-stats {
+  display:flex; gap:24px; margin-top:14px;
+}
+.pstat { text-align:center; }
+.pstat .pnum { font-size:20px; font-weight:700; color:var(--text-dark); }
+.pstat .plabel { font-size:12px; color:var(--gray-3); }
+
+/* ===== SEARCH ===== */
+.search-bar {
+  display:flex; align-items:center; gap:10px;
+  background:var(--gray-1); border:1.5px solid var(--gray-2);
+  border-radius:24px; padding:8px 16px;
+  margin:16px 20px; transition:border-color 0.2s;
+}
+.search-bar:focus-within { border-color:var(--red); background:white; }
+.search-bar input {
+  border:none; background:none; outline:none; flex:1;
+  font-size:14px; font-family:'Hind Siliguri',sans-serif; color:var(--text-dark);
+}
+.search-bar .s-icon { color:var(--gray-3); font-size:18px; }
+
+/* ===== CHAT ===== */
+.chat-list-item {
+  display:flex; align-items:center; gap:12px; padding:12px 20px;
+  cursor:pointer; transition:background 0.15s; border-bottom:1px solid var(--gray-2);
+}
+.chat-list-item:hover { background:var(--gray-1); }
+.chat-unread { background:#FFF0F2; }
+.chat-dot { width:10px; height:10px; background:var(--red); border-radius:50%; margin-left:auto; }
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px) {
+  .main-layout { grid-template-columns:1fr; }
+  .sidebar-left { display:none; }
+  .sidebar-right { display:none; }
+}
+
+/* ===== BD FLAG STRIPE ===== */
+.bd-stripe {
+  height:4px;
+  background:linear-gradient(90deg, var(--green) 50%, var(--red) 50%);
+}
+
+.green-btn {
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  color:white; border:none; border-radius:var(--radius-sm);
+  padding:10px 22px; font-size:14px; font-weight:700;
+  cursor:pointer; font-family:'Hind Siliguri',sans-serif; transition:all 0.2s;
+}
+.green-btn:hover { box-shadow:0 4px 16px rgba(0,106,78,0.4); }
+
+.empty-feed {
+  text-align:center; padding:60px 20px; color:var(--gray-3);
+}
+.empty-feed .ef-icon { font-size:56px; margin-bottom:12px; }
+.empty-feed h4 { font-size:16px; font-weight:600; margin-bottom:6px; color:var(--text-mid); }
+.empty-feed p { font-size:13px; line-height:1.6; }
+
+/* Notifications dropdown */
+.notif-btn { position:relative; }
+.notif-count {
+  position:absolute; top:-4px; right:-4px;
+  background:var(--red); color:white; font-size:10px; font-weight:700;
+  width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  border:2px solid var(--green-dark);
+}
+
+/* Message counter */
+.online-bar {
+  display:flex; align-items:center; gap:6px;
+  padding:10px 20px 0; font-size:12px; color:var(--gray-3);
+}
+.online-dot { width:8px; height:8px; background:#4CAF50; border-radius:50%; }
+</style>
+</head>
+<body>
+
+<!-- ===== AUTH PAGE ===== -->
+<div id="authPage" class="page active">
+  <div class="auth-bg">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <div class="logo-text">চিঠি</div>
+        <div class="tagline">বাংলার নিজস্ব সামাজিক যোগাযোগ মাধ্যম 🇧🇩</div>
+      </div>
+      
+      <div class="auth-tabs">
+        <div class="auth-tab active" onclick="switchAuthTab('login')">লগইন করুন</div>
+        <div class="auth-tab" onclick="switchAuthTab('register')">নিবন্ধন করুন</div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="loginForm">
+        <!-- Demo accounts info box -->
+        <div style="background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border:1.5px solid #a5d6a7;border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:13px;">
+          <div style="font-weight:700;color:#2e7d32;margin-bottom:8px;">🔑 ডেমো অ্যাকাউন্ট (সরাসরি লগইন করুন):</div>
+          <table style="width:100%;border-collapse:collapse;font-size:12px;">
+            <tr style="color:#555;font-weight:600;border-bottom:1px solid #c8e6c9;">
+              <td style="padding:4px 6px;">ধরন</td>
+              <td style="padding:4px 6px;">ইমেইল</td>
+              <td style="padding:4px 6px;">পাসওয়ার্ড</td>
+            </tr>
+            <tr onclick="fillLogin('amir@chithi.bd','amir1234')" style="cursor:pointer;" onmouseenter="this.style.background='#f1f8e9'" onmouseleave="this.style.background=''">
+              <td style="padding:4px 6px;">👨 পুরুষ (২৫)</td>
+              <td style="padding:4px 6px;color:#1565c0;">amir@chithi.bd</td>
+              <td style="padding:4px 6px;font-family:monospace;">amir1234</td>
+            </tr>
+            <tr onclick="fillLogin('rahela@chithi.bd','rahela1234')" style="cursor:pointer;" onmouseenter="this.style.background='#fce4ec'" onmouseleave="this.style.background=''">
+              <td style="padding:4px 6px;">👩 মহিলা (২২)</td>
+              <td style="padding:4px 6px;color:#c62828;">rahela@chithi.bd</td>
+              <td style="padding:4px 6px;font-family:monospace;">rahela1234</td>
+            </tr>
+            <tr onclick="fillLogin('rahim@chithi.bd','rahim1234')" style="cursor:pointer;" onmouseenter="this.style.background='#e8f5e9'" onmouseleave="this.style.background=''">
+              <td style="padding:4px 6px;">🧒 কিশোর (১৫)</td>
+              <td style="padding:4px 6px;color:#2e7d32;">rahim@chithi.bd</td>
+              <td style="padding:4px 6px;font-family:monospace;">rahim1234</td>
+            </tr>
+          </table>
+          <div style="font-size:11px;color:#888;margin-top:6px;">👆 যেকোনো সারিতে ক্লিক করলে ইমেইল+পাসওয়ার্ড নিজেই ভরে যাবে</div>
+        </div>
+        <div class="form-group">
+          <label>ইমেইল বা ফোন নম্বর</label>
+          <input type="text" id="loginEmail" placeholder="ইমেইল লিখুন" />
+        </div>
+        <div class="form-group">
+          <label>পাসওয়ার্ড</label>
+          <input type="password" id="loginPass" placeholder="পাসওয়ার্ড লিখুন" onkeydown="if(event.key==='Enter')doLogin()" />
+        </div>
+        <button class="btn-primary" onclick="doLogin()">লগইন করুন →</button>
+        <div class="age-note">
+          🔒 আপনার তথ্য সম্পূর্ণ নিরাপদ। চিঠি বাংলাদেশের নিজস্ব প্ল্যাটফর্ম।
+        </div>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="registerForm" style="display:none">
+        <div class="form-group">
+          <label>পূর্ণ নাম</label>
+          <input type="text" id="regName" placeholder="আপনার পুরো নাম লিখুন" />
+        </div>
+        <div class="form-group">
+          <label>ইমেইল</label>
+          <input type="email" id="regEmail" placeholder="আপনার ইমেইল লিখুন" />
+        </div>
+        <div class="form-group">
+          <label>জন্ম তারিখ</label>
+          <input type="date" id="regDob" max="" />
+        </div>
+        <div class="form-group">
+          <label>লিঙ্গ নির্বাচন করুন</label>
+          <div class="gender-grid">
+            <div class="gender-option" id="gMale" onclick="selectGender('male')">
+              <span class="g-icon">👨</span>
+              <span class="g-label">পুরুষ</span>
+            </div>
+            <div class="gender-option" id="gFemale" onclick="selectGender('female')">
+              <span class="g-icon">👩</span>
+              <span class="g-label">মহিলা</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>পাসওয়ার্ড</label>
+          <input type="password" id="regPass" placeholder="শক্তিশালী পাসওয়ার্ড দিন" />
+        </div>
+        <button class="btn-primary" onclick="doRegister()">চিঠিতে যোগ দিন 🇧🇩</button>
+        <div class="age-note">
+          ⚠️ ১৮ বছরের নিচে হলে শুধু কিশোর বিভাগে প্রবেশ করতে পারবেন।<br>
+          ১৮+ বয়সে পুরুষ/মহিলা বিভাগে সম্পূর্ণ প্রবেশাধিকার পাবেন।
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="mainPage" class="page">
+  <div class="bd-stripe"></div>
+  <div class="main-layout">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar-left">
+      <div class="sidebar-logo">
+        <div class="logo-text">চিঠি</div>
+        <div class="logo-sub">🇧🇩 বাংলার নিজস্ব প্ল্যাটফর্ম</div>
+      </div>
+
+      <div class="user-mini-profile">
+        <div class="avatar-sm" id="sideAvatar">ম</div>
+        <div class="user-mini-info">
+          <div class="name" id="sidebarName">লোড হচ্ছে...</div>
+          <div class="status"><span class="status-dot"></span>অনলাইন</div>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">প্রধান মেনু</div>
+        <div class="nav-item active" onclick="showSection('feed')">
+          <span class="nav-icon">🏠</span> নিউজফিড
+        </div>
+        <div class="nav-item" onclick="showSection('profile')">
+          <span class="nav-icon">👤</span> প্রোফাইল
+        </div>
+        <div class="nav-item" onclick="showSection('messages')">
+          <span class="nav-icon">💬</span> বার্তা
+          <span class="nav-badge">৩</span>
+        </div>
+        <div class="nav-item" onclick="showSection('notifications')">
+          <span class="nav-icon">🔔</span> বিজ্ঞপ্তি
+          <span class="nav-badge" id="notifBadge">৫</span>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">বিভাগ</div>
+        <div class="nav-item" id="navMale" onclick="showGenderSection('male')">
+          <span class="nav-icon">🔵</span> পুরুষ বিভাগ
+        </div>
+        <div class="nav-item" id="navFemale" onclick="showGenderSection('female')">
+          <span class="nav-icon">🔴</span> মহিলা বিভাগ
+        </div>
+        <div class="nav-item" id="navJunior" onclick="showGenderSection('junior')">
+          <span class="nav-icon">🟢</span> কিশোর বিভাগ
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">আবিষ্কার</div>
+        <div class="nav-item" onclick="showSection('explore')">
+          <span class="nav-icon">🔍</span> অনুসন্ধান
+        </div>
+        <div class="nav-item" onclick="showSection('stories')">
+          <span class="nav-icon">📸</span> স্টোরি
+        </div>
+        <div class="nav-item" onclick="showSection('reels')">
+          <span class="nav-icon">🎬</span> ভিডিও রিলস
+        </div>
+        <div class="nav-item" onclick="showSection('groups')">
+          <span class="nav-icon">👥</span> গ্রুপ
+        </div>
+        <div class="nav-item" onclick="showSection('events')">
+          <span class="nav-icon">🎉</span> ইভেন্ট
+        </div>
+      </div>
+
+      <div class="logout-btn">
+        <button onclick="doLogout()">🚪 লগআউট করুন</button>
+      </div>
+    </div>
+
+    <!-- MAIN FEED AREA -->
+    <div class="main-feed" id="mainFeedArea">
+
+      <!-- HOME FEED -->
+      <div id="section-feed">
+        <div class="feed-header">
+          <h2>নিউজফিড</h2>
+          <span class="section-badge" id="feedBadgeEl">লোড হচ্ছে...</span>
+        </div>
+
+        <!-- Stories -->
+        <div class="stories-bar">
+          <div class="story-item add-story" onclick="showToast('স্টোরি যুক্ত করুন')">
+            <div class="story-ring"><div class="story-avatar">➕</div></div>
+            <div class="story-name">স্টোরি</div>
+          </div>
+          <div class="story-item" onclick="showToast('রফিকের স্টোরি দেখছেন')">
+            <div class="story-ring"><div class="story-avatar">😊</div></div>
+            <div class="story-name">রফিক ভাই</div>
+          </div>
+          <div class="story-item" onclick="showToast('আয়েশার স্টোরি দেখছেন')">
+            <div class="story-ring"><div class="story-avatar">🌸</div></div>
+            <div class="story-name">আয়েশা</div>
+          </div>
+          <div class="story-item" onclick="showToast('করিমের স্টোরি দেখছেন')">
+            <div class="story-ring"><div class="story-avatar">😎</div></div>
+            <div class="story-name">করিম</div>
+          </div>
+          <div class="story-item" onclick="showToast('সুমাইয়ার স্টোরি দেখছেন')">
+            <div class="story-ring"><div class="story-avatar">🌺</div></div>
+            <div class="story-name">সুমাইয়া</div>
+          </div>
+          <div class="story-item" onclick="showToast('তানভীরের স্টোরি দেখছেন')">
+            <div class="story-ring"><div class="story-avatar">🏏</div></div>
+            <div class="story-name">তানভীর</div>
+          </div>
+        </div>
+
+        <!-- Post Composer -->
+        <div class="post-composer">
+          <div class="composer-top">
+            <div class="composer-avatar" id="composerAvatar">ম</div>
+            <textarea class="composer-input" id="postInput" placeholder="আপনার মনের কথা শেয়ার করুন..."></textarea>
+          </div>
+          <div class="composer-actions">
+            <button class="action-btn" onclick="showToast('ছবি যুক্ত করুন')">📷 ছবি</button>
+            <button class="action-btn" onclick="showToast('ভিডিও যুক্ত করুন')">🎬 ভিডিও</button>
+            <button class="action-btn" onclick="showToast('ইমোজি যুক্ত করুন')">😊 অনুভূতি</button>
+            <button class="action-btn" onclick="showToast('লাইভ শুরু করুন')">🔴 লাইভ</button>
+            <button class="post-btn" onclick="submitPost()">পোস্ট করুন →</button>
+          </div>
+        </div>
+
+        <!-- Posts Feed -->
+        <div id="postsContainer"></div>
+      </div>
+
+      <!-- GENDER SECTION VIEW -->
+      <div id="section-gender" style="display:none">
+        <div class="feed-header">
+          <h2 id="genderSectionTitle">বিভাগ</h2>
+          <span class="section-badge" id="genderBadgeEl"></span>
+        </div>
+        <div id="genderFeedContent" style="padding:20px;"></div>
+      </div>
+
+      <!-- PROFILE SECTION -->
+      <div id="section-profile" style="display:none">
+        <div class="profile-cover">
+          <div class="cover-pattern"></div>
+        </div>
+        <div class="profile-info-bar">
+          <div class="profile-big-avatar" id="profileBigAvatar">ম</div>
+          <div class="profile-name" id="profileName">ব্যবহারকারী</div>
+          <div class="profile-handle" id="profileHandle">@chithi_user</div>
+          <div class="profile-stats">
+            <div class="pstat"><div class="pnum">১২৪</div><div class="plabel">পোস্ট</div></div>
+            <div class="pstat"><div class="pnum">২.৪হা</div><div class="plabel">অনুসরণকারী</div></div>
+            <div class="pstat"><div class="pnum">৩৮৬</div><div class="plabel">অনুসরণ</div></div>
+          </div>
+        </div>
+        <div style="padding:20px;">
+          <div id="myProfilePosts"></div>
+        </div>
+      </div>
+
+      <!-- MESSAGES SECTION -->
+      <div id="section-messages" style="display:none">
+        <div class="feed-header"><h2>বার্তা</h2></div>
+        <div class="search-bar" style="margin:16px 20px;">
+          <span class="s-icon">🔍</span>
+          <input type="text" placeholder="বার্তা খুঁজুন..." />
+        </div>
+        <div class="online-bar"><div class="online-dot"></div> ৭ জন অনলাইন</div>
+        <div id="chatList"></div>
+      </div>
+
+      <!-- NOTIFICATIONS SECTION -->
+      <div id="section-notifications" style="display:none">
+        <div class="feed-header"><h2>বিজ্ঞপ্তি</h2></div>
+        <div id="notifList" style="padding:12px 0;"></div>
+      </div>
+
+      <!-- EXPLORE SECTION -->
+      <div id="section-explore" style="display:none">
+        <div class="feed-header"><h2>অনুসন্ধান</h2></div>
+        <div class="search-bar">
+          <span class="s-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="মানুষ, পোস্ট, হ্যাশট্যাগ খুঁজুন..." oninput="doSearch(this.value)" />
+        </div>
+        <div id="searchResults" style="padding:0 20px;"></div>
+      </div>
+
+      <!-- OTHER SECTIONS (stories, reels, groups, events) -->
+      <div id="section-stories" style="display:none">
+        <div class="feed-header"><h2>স্টোরি</h2></div>
+        <div style="padding:40px;text-align:center;color:var(--gray-3);">
+          <div style="font-size:60px;margin-bottom:12px;">📸</div>
+          <h4 style="font-size:18px;color:var(--text-mid);margin-bottom:8px;">স্টোরি ফিচার শীঘ্রই আসছে!</h4>
+          <p>আপনার ২৪ ঘন্টার মুহূর্তগুলো শেয়ার করুন।</p>
+        </div>
+      </div>
+      <div id="section-reels" style="display:none">
+        <div class="feed-header"><h2>ভিডিও রিলস</h2></div>
+        <div style="padding:40px;text-align:center;color:var(--gray-3);">
+          <div style="font-size:60px;margin-bottom:12px;">🎬</div>
+          <h4 style="font-size:18px;color:var(--text-mid);margin-bottom:8px;">রিলস ফিচার শীঘ্রই আসছে!</h4>
+        </div>
+      </div>
+      <div id="section-groups" style="display:none">
+        <div class="feed-header"><h2>গ্রুপ</h2></div>
+        <div style="padding:40px;text-align:center;color:var(--gray-3);">
+          <div style="font-size:60px;margin-bottom:12px;">👥</div>
+          <h4 style="font-size:18px;color:var(--text-mid);margin-bottom:8px;">গ্রুপ ফিচার শীঘ্রই আসছে!</h4>
+        </div>
+      </div>
+      <div id="section-events" style="display:none">
+        <div class="feed-header"><h2>ইভেন্ট</h2></div>
+        <div style="padding:40px;text-align:center;color:var(--gray-3);">
+          <div style="font-size:60px;margin-bottom:12px;">🎉</div>
+          <h4 style="font-size:18px;color:var(--text-mid);margin-bottom:8px;">ইভেন্ট ফিচার শীঘ্রই আসছে!</h4>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="sidebar-right">
+
+      <!-- Trending -->
+      <div class="widget-card">
+        <div class="widget-title">ট্রেন্ডিং বিষয়</div>
+        <div class="trend-item" onclick="showToast('#বাংলাদেশ ট্রেন্ডিং')">
+          <div class="trend-num">১</div>
+          <div class="trend-text"><div class="t-tag">#বাংলাদেশ</div><div class="t-count">৪৫ হাজার পোস্ট</div></div>
+          <div class="trend-icon">🔥</div>
+        </div>
+        <div class="trend-item" onclick="showToast('#ক্রিকেট ট্রেন্ডিং')">
+          <div class="trend-num">২</div>
+          <div class="trend-text"><div class="t-tag">#ক্রিকেট</div><div class="t-count">২৩ হাজার পোস্ট</div></div>
+          <div class="trend-icon">🏏</div>
+        </div>
+        <div class="trend-item" onclick="showToast('#ঢাকা ট্রেন্ডিং')">
+          <div class="trend-num">৩</div>
+          <div class="trend-text"><div class="t-tag">#ঢাকা</div><div class="t-count">১৮ হাজার পোস্ট</div></div>
+          <div class="trend-icon">🌆</div>
+        </div>
+        <div class="trend-item" onclick="showToast('#বর্ষাকাল ট্রেন্ডিং')">
+          <div class="trend-num">৪</div>
+          <div class="trend-text"><div class="t-tag">#বর্ষাকাল</div><div class="t-count">৯ হাজার পোস্ট</div></div>
+          <div class="trend-icon">🌧️</div>
+        </div>
+        <div class="trend-item" onclick="showToast('#ইলিশ ট্রেন্ডিং')">
+          <div class="trend-num">৫</div>
+          <div class="trend-text"><div class="t-tag">#ইলিশমাছ</div><div class="t-count">৭ হাজার পোস্ট</div></div>
+          <div class="trend-icon">🐟</div>
+        </div>
+      </div>
+
+      <!-- Suggestions -->
+      <div class="widget-card" id="suggestionWidget">
+        <div class="widget-title">পরিচিত হোন</div>
+        <div id="suggestionList"></div>
+      </div>
+
+      <!-- BD Info Card -->
+      <div class="widget-card" style="background:linear-gradient(135deg,var(--green-dark),var(--green));border:none;">
+        <div style="color:rgba(255,255,255,0.7);font-size:12px;margin-bottom:6px;">আজকের বাংলাদেশ</div>
+        <div style="color:white;font-size:22px;font-family:'Noto Serif Bengali',serif;font-weight:700;">🇧🇩 চিঠি</div>
+        <div style="color:rgba(255,255,255,0.85);font-size:12.5px;margin-top:8px;line-height:1.6;">
+          বাংলার মানুষের জন্য, বাংলার ভাষায়। আপনার প্রতিটি চিঠি একটি সংযোগ।
+        </div>
+        <div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,0.6);">
+          🌸 শাপলা • 🐯 বাঘ • 🐦 দোয়েল
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Post Detail Modal -->
+<div class="modal-overlay" id="postModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>পোস্ট দেখুন</h3>
+      <span class="modal-close" onclick="closeModal()">✕</span>
+    </div>
+    <div class="modal-body" id="postModalBody"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toastEl"></div>
+
+<script>
+// ===== DEMO ACCOUNTS (pre-loaded) =====
+const DEMO_USERS = [
+  { id:'demo1', name:'আমির হোসেন',    email:'amir@chithi.bd',    pass:'amir1234',    gender:'male',   age:25, dob:'2000-01-15', avatar:'আ' },
+  { id:'demo2', name:'রাহেলা বেগম',   email:'rahela@chithi.bd',  pass:'rahela1234',  gender:'female', age:22, dob:'2003-05-20', avatar:'রা' },
+  { id:'demo3', name:'তানভীর আহমেদ', email:'tanvir@chithi.bd',  pass:'tanvir1234',  gender:'male',   age:30, dob:'1995-08-10', avatar:'ত' },
+  { id:'demo4', name:'সুমাইয়া ইসলাম',email:'sumaiya@chithi.bd', pass:'sumaiya1234', gender:'female', age:19, dob:'2006-03-12', avatar:'সু' },
+  { id:'demo5', name:'কিশোর রাহিম',   email:'rahim@chithi.bd',   pass:'rahim1234',   gender:'male',   age:15, dob:'2010-07-25', avatar:'কি' },
+];
+
+// ===== APP STATE =====
+// On first load, inject demo users into localStorage if not present
+(function initDemoUsers() {
+  let stored = JSON.parse(localStorage.getItem('chithi_users') || '[]');
+  let changed = false;
+  DEMO_USERS.forEach(d => {
+    if (!stored.find(u => u.email === d.email)) {
+      stored.push(d);
+      changed = true;
+    }
+  });
+  if (changed) localStorage.setItem('chithi_users', JSON.stringify(stored));
+})();
+
+let appState = {
+  currentUser: null,
+  users: JSON.parse(localStorage.getItem('chithi_users') || '[]'),
+  posts: JSON.parse(localStorage.getItem('chithi_posts') || '[]'),
+  currentSection: 'feed',
+  likedPosts: JSON.parse(localStorage.getItem('chithi_likes') || '[]'),
+};
+
+const samplePosts = [
+  { id:'p1', authorName:'মোহাম্মদ রফিক', authorGender:'male', authorAge:25, emoji:'👨', content:'আজকের ঢাকার আকাশটা দারুণ ছিল! বৃষ্টির পরে যে সুন্দর রংধনু উঠল... 🌈 সত্যিই বাংলাদেশ অসাধারণ। #ঢাকা #বর্ষাকাল', time:'১০ মিনিট আগে', likes:34, comments:8, hasImage:true, imgEmoji:'🌈', color:'#e8f5e9' },
+  { id:'p2', authorName:'আয়েশা সিদ্দিকা', authorGender:'female', authorAge:22, emoji:'👩', content:'আজকে নতুন শাপলা ফুল দেখলাম বিলে! আমাদের জাতীয় ফুল এত সুন্দর... প্রকৃতির কাছে ফিরে যাওয়া দরকার সবার। 🌺 #শাপলা #প্রকৃতি', time:'৩০ মিনিট আগে', likes:56, comments:12, hasImage:true, imgEmoji:'🌺', color:'#fff0f2' },
+  { id:'p3', authorName:'করিম উদ্দিন', authorGender:'male', authorAge:28, emoji:'😎', content:'বাংলাদেশ ক্রিকেট দলকে অভিনন্দন! আজকের ম্যাচে দারুণ খেলেছে। টাইগাররা আবারও জিতেছে! 🏏🇧🇩 #বাংলাদেশক্রিকেট #টাইগার', time:'১ ঘণ্টা আগে', likes:142, comments:34, hasImage:false, imgEmoji:'', color:'' },
+  { id:'p4', authorName:'সুমাইয়া খানম', authorGender:'female', authorAge:19, emoji:'🌸', content:'রাতের খাবারে আজকে মায়ের হাতের ইলিশ পোলাও! এই স্বাদ পৃথিবীর কোথাও পাওয়া যাবে না। গৃহস্থালি রান্নার কোনো তুলনা নেই। 🐟🍚❤️', time:'২ ঘণ্টা আগে', likes:89, comments:21, hasImage:true, imgEmoji:'🍽️', color:'#fff8e7' },
+  { id:'p5', authorName:'আরিফ হোসেন', authorGender:'male', authorAge:32, emoji:'🧔', content:'পহেলা বৈশাখের প্রস্তুতি শুরু হয়ে গেছে! মঙ্গল শোভাযাত্রার জন্য পোস্টার আঁকছি। বাংলা নববর্ষ আসুক আনন্দ নিয়ে। 🎨🎭 #পহেলাবৈশাখ #বাংলানববর্ষ', time:'৩ ঘণ্টা আগে', likes:203, comments:47, hasImage:false, imgEmoji:'', color:'' },
+];
+
+const sampleUsers = [
+  { name:'নাফিসা ইসলাম', gender:'female', age:21, emoji:'💫', mutuals:'৫ জন পরিচিত', color:'#C8102E' },
+  { name:'তানভীর আহমেদ', gender:'male', age:26, emoji:'🌟', mutuals:'৩ জন পরিচিত', color:'#006A4E' },
+  { name:'রুবাইয়া বেগম', gender:'female', age:24, emoji:'🌺', mutuals:'৮ জন পরিচিত', color:'#9B0B22' },
+  { name:'সাইফুল ইসলাম', gender:'male', age:29, emoji:'⭐', mutuals:'২ জন পরিচিত', color:'#004D38' },
+];
+
+const chatSampleData = [
+  { name:'রফিক ভাই', emoji:'😊', lastMsg:'হ্যাঁ ভাই, কাল দেখা হবে ইনশাআল্লাহ', time:'১০ মিনিট', unread:2 },
+  { name:'আয়েশা', emoji:'🌸', lastMsg:'ধন্যবাদ! শাপলার ছবিটা ভালো লাগলো', time:'৪৫ মিনিট', unread:1 },
+  { name:'করিম', emoji:'😎', lastMsg:'টাইগাররা জিতেছে!!! 🏏', time:'১ ঘন্টা', unread:0 },
+  { name:'তানভীর গ্রুপ', emoji:'👥', lastMsg:'সুমাইয়া: কাল কখন আসবে?', time:'২ ঘন্টা', unread:0 },
+];
+
+const notifications = [
+  { icon:'❤️', text:'মোহাম্মদ রফিক আপনার পোস্টে লাইক দিয়েছেন', time:'৫ মিনিট আগে', color:'var(--red)' },
+  { icon:'💬', text:'আয়েশা সিদ্দিকা আপনার পোস্টে মন্তব্য করেছেন: "সুন্দর পোস্ট!"', time:'১৫ মিনিট আগে', color:'var(--green)' },
+  { icon:'👤', text:'তানভীর আহমেদ আপনাকে অনুসরণ শুরু করেছেন', time:'১ ঘণ্টা আগে', color:'#1976D2' },
+  { icon:'🔁', text:'করিম উদ্দিন আপনার পোস্ট শেয়ার করেছেন', time:'২ ঘণ্টা আগে', color:'var(--green)' },
+  { icon:'🎉', text:'আপনার পোস্টে ১০০ লাইক হয়েছে! অভিনন্দন!', time:'৩ ঘণ্টা আগে', color:'var(--gold)' },
+];
+
+// ===== AUTH FUNCTIONS =====
+let selectedGender = '';
+let selectedTab = 'login';
+
+function fillLogin(email, pass) {
+  document.getElementById('loginEmail').value = email;
+  document.getElementById('loginPass').value = pass;
+  showToast('✅ তথ্য ভরা হয়েছে — এখন "লগইন" চাপুন');
+}
+
+function switchAuthTab(tab) {
+  selectedTab = tab;
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+  document.querySelectorAll('.auth-tab').forEach((t,i) => {
+    t.classList.toggle('active', (i === 0 && tab === 'login') || (i === 1 && tab === 'register'));
+  });
+}
+
+function selectGender(g) {
+  selectedGender = g;
+  document.getElementById('gMale').classList.toggle('selected', g === 'male');
+  document.getElementById('gFemale').classList.toggle('selected', g === 'female');
+}
+
+function getAge(dob) {
+  const birth = new Date(dob), now = new Date();
+  let age = now.getFullYear() - birth.getFullYear();
+  if (now < new Date(now.getFullYear(), birth.getMonth(), birth.getDate())) age--;
+  return age;
+}
+
+function doRegister() {
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const dob = document.getElementById('regDob').value;
+  const pass = document.getElementById('regPass').value.trim();
+
+  if (!name)  return showToast('⚠️ নাম লিখুন');
+  if (!email) return showToast('⚠️ ইমেইল লিখুন');
+  if (!dob)   return showToast('⚠️ জন্ম তারিখ দিন');
+  if (!selectedGender) return showToast('⚠️ লিঙ্গ নির্বাচন করুন');
+  if (!pass || pass.length < 6) return showToast('⚠️ কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন');
+
+  // Always read fresh
+  const users = JSON.parse(localStorage.getItem('chithi_users') || '[]');
+  if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+    return showToast('❌ এই ইমেইলে আগেই অ্যাকাউন্ট আছে');
+  }
+
+  const age = getAge(dob);
+  const user = {
+    id: 'u' + Date.now(),
+    name, email, dob,
+    gender: selectedGender,
+    age, pass,
+    avatar: name[0].toUpperCase()
+  };
+  users.push(user);
+  localStorage.setItem('chithi_users', JSON.stringify(users));
+  appState.users = users;
+  appState.currentUser = user;
+  localStorage.setItem('chithi_session', JSON.stringify(user));
+  showToast('🎉 স্বাগতম ' + name + '! চিঠিতে যোগ হলেন 🇧🇩');
+  setTimeout(loadMainApp, 700);
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value.trim();
+
+  if (!email) return showToast('⚠️ ইমেইল লিখুন');
+  if (!pass)  return showToast('⚠️ পাসওয়ার্ড লিখুন');
+
+  // Always read fresh from localStorage (includes demo + registered users)
+  const allUsers = JSON.parse(localStorage.getItem('chithi_users') || '[]');
+  const user = allUsers.find(u => u.email.toLowerCase() === email.toLowerCase() && u.pass === pass);
+
+  if (!user) return showToast('❌ ইমেইল বা পাসওয়ার্ড সঠিক নয়');
+
+  appState.currentUser = user;
+  appState.users = allUsers;
+  localStorage.setItem('chithi_session', JSON.stringify(user));
+  showToast('✅ স্বাগতম, ' + user.name + '! 🇧🇩');
+  setTimeout(loadMainApp, 700);
+}
+
+function doLogout() {
+  localStorage.removeItem('chithi_session');
+  appState.currentUser = null;
+  showPage('authPage');
+  showToast('লগআউট সফল হয়েছে');
+}
+
+// ===== MAIN APP =====
+function loadMainApp() {
+  const user = appState.currentUser;
+  showPage('mainPage');
+
+  document.getElementById('sidebarName').textContent = user.name;
+  document.getElementById('sideAvatar').textContent = user.avatar || user.name[0];
+  document.getElementById('composerAvatar').textContent = user.avatar || user.name[0];
+  document.getElementById('profileBigAvatar').textContent = user.avatar || user.name[0];
+  document.getElementById('profileName').textContent = user.name;
+  document.getElementById('profileHandle').textContent = '@' + user.name.replace(/\s/g,'').toLowerCase();
+
+  // Set feed badge based on user
+  const u = user;
+  let badgeHTML = '';
+  if (u.age < 18) badgeHTML = `<span class="section-badge badge-junior">কিশোর বিভাগ (${u.age} বছর)</span>`;
+  else if (u.gender === 'male') badgeHTML = `<span class="section-badge badge-male">পুরুষ বিভাগ</span>`;
+  else badgeHTML = `<span class="section-badge badge-female">মহিলা বিভাগ</span>`;
+  const badgeEl = document.getElementById('feedBadgeEl');
+  if (badgeEl) badgeEl.outerHTML = badgeHTML;
+
+  // Lock nav items based on age/gender
+  setupNavAccess(user);
+  renderPosts(user);
+  renderSuggestions(user);
+  renderChats();
+  renderNotifications();
+  renderMyProfile(user);
+}
+
+function setupNavAccess(user) {
+  const navMale = document.getElementById('navMale');
+  const navFemale = document.getElementById('navFemale');
+  const navJunior = document.getElementById('navJunior');
+
+  if (user.age < 18) {
+    navMale.style.opacity = '0.4'; navMale.title = '১৮+ বয়সে প্রবেশযোগ্য';
+    navFemale.style.opacity = '0.4'; navFemale.title = '১৮+ বয়সে প্রবেশযোগ্য';
+    navJunior.style.opacity = '1';
+  } else {
+    if (user.gender === 'male') {
+      navMale.style.opacity = '1';
+      navFemale.style.opacity = '0.4'; navFemale.title = 'শুধু মহিলা সদস্যরা দেখতে পারবেন';
+      navJunior.style.opacity = '0.4'; navJunior.title = 'শুধু ১৮-এর নিচের সদস্যরা দেখতে পারবেন';
+    } else {
+      navFemale.style.opacity = '1';
+      navMale.style.opacity = '0.4'; navMale.title = 'শুধু পুরুষ সদস্যরা দেখতে পারবেন';
+      navJunior.style.opacity = '0.4'; navJunior.title = 'শুধু ১৮-এর নিচের সদস্যরা দেখতে পারবেন';
+    }
+  }
+}
+
+function renderPosts(user) {
+  const container = document.getElementById('postsContainer');
+  const userPosts = JSON.parse(localStorage.getItem('chithi_posts') || '[]');
+  
+  // Filter posts for user's section
+  let visiblePosts = [...samplePosts, ...userPosts];
+  if (user.age < 18) {
+    visiblePosts = visiblePosts.filter(p => (p.authorAge || 20) < 18 || p.authorId === user.id);
+  } else if (user.gender === 'male') {
+    visiblePosts = visiblePosts.filter(p => p.authorGender !== 'female');
+  } else {
+    visiblePosts = visiblePosts.filter(p => p.authorGender !== 'male');
+  }
+
+  if (visiblePosts.length === 0) {
+    container.innerHTML = `<div class="empty-feed"><div class="ef-icon">📭</div><h4>কোনো পোস্ট নেই</h4><p>প্রথম পোস্ট করুন বা বন্ধু যোগ করুন।</p></div>`;
+    return;
+  }
+
+  container.innerHTML = visiblePosts.map(p => makePostHTML(p)).join('');
+}
+
+function makePostHTML(p) {
+  const liked = appState.likedPosts.includes(p.id);
+  const imgHtml = p.hasImage ? `<div class="post-image-placeholder" style="background:${p.color||'#f0f9f6'};"><span style="font-size:64px;">${p.imgEmoji||'🖼️'}</span></div>` : '';
+  return `<div class="post-card" id="post_${p.id}">
+    <div class="post-header">
+      <div class="post-avatar" style="background:linear-gradient(135deg,${p.authorGender==='female'?'var(--red),#E91E63':'var(--green),var(--green-dark)'});">${p.emoji||p.authorName[0]}</div>
+      <div class="post-meta">
+        <div class="post-name">${p.authorName}</div>
+        <div class="post-time">${p.time}</div>
+      </div>
+      <div class="post-more" onclick="showToast('বিকল্প মেনু')">⋯</div>
+    </div>
+    <div class="post-content">${p.content}</div>
+    ${imgHtml}
+    <div class="post-stats">
+      <span class="stat-tag">❤️ ${p.likes} জন</span>
+      <span class="stat-tag" style="margin-left:auto;">💬 ${p.comments} মন্তব্য</span>
+    </div>
+    <div class="post-actions">
+      <button class="post-action ${liked?'liked':''}" onclick="toggleLike('${p.id}', this)">
+        ${liked?'❤️':'🤍'} লাইক
+      </button>
+      <button class="post-action" onclick="showToast('মন্তব্য করুন')">💬 মন্তব্য</button>
+      <button class="post-action shared" onclick="sharePost('${p.id}')">🔁 শেয়ার</button>
+      <button class="post-action" onclick="showToast('পোস্ট সংরক্ষণ করা হয়েছে')">🔖 সেভ</button>
+    </div>
+  </div>`;
+}
+
+function toggleLike(postId, btn) {
+  const likes = appState.likedPosts;
+  const idx = likes.indexOf(postId);
+  if (idx === -1) {
+    likes.push(postId);
+    btn.innerHTML = '❤️ লাইক'; btn.classList.add('liked');
+    showToast('লাইক দেওয়া হয়েছে! ❤️');
+  } else {
+    likes.splice(idx, 1);
+    btn.innerHTML = '🤍 লাইক'; btn.classList.remove('liked');
+  }
+  appState.likedPosts = likes;
+  localStorage.setItem('chithi_likes', JSON.stringify(likes));
+}
+
+function sharePost(id) {
+  showToast('পোস্ট শেয়ার করা হয়েছে! 🔁');
+}
+
+function submitPost() {
+  const txt = document.getElementById('postInput').value.trim();
+  if (!txt) return showToast('কিছু লিখুন আগে!');
+  const user = appState.currentUser;
+  const newPost = {
+    id: 'up' + Date.now(),
+    authorName: user.name, authorGender: user.gender, authorAge: user.age,
+    authorId: user.id, emoji: user.avatar || user.name[0],
+    content: txt, time: 'এইমাত্র',
+    likes: 0, comments: 0, hasImage: false
+  };
+  const posts = JSON.parse(localStorage.getItem('chithi_posts') || '[]');
+  posts.unshift(newPost);
+  localStorage.setItem('chithi_posts', JSON.stringify(posts));
+  document.getElementById('postInput').value = '';
+  showToast('পোস্ট প্রকাশিত হয়েছে! ✅');
+  renderPosts(user);
+}
+
+function renderSuggestions(user) {
+  const list = document.getElementById('suggestionList');
+  const filtered = sampleUsers.filter(s => {
+    if (user.age < 18) return false;
+    return s.gender === user.gender;
+  });
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div style="font-size:13px;color:var(--gray-3);text-align:center;padding:12px;">আপাতত কোনো সাজেশন নেই</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(s => `
+    <div class="suggest-item">
+      <div class="suggest-avatar" style="background:${s.color};">${s.emoji}</div>
+      <div class="suggest-info">
+        <div class="sname">${s.name}</div>
+        <div class="smutual">${s.mutuals}</div>
+      </div>
+      <button class="follow-btn" onclick="followUser(this, '${s.name}')">অনুসরণ</button>
+    </div>`).join('');
+}
+
+function followUser(btn, name) {
+  if (btn.classList.contains('following')) {
+    btn.classList.remove('following'); btn.textContent = 'অনুসরণ';
+    showToast(name + '-এর অনুসরণ বাতিল হয়েছে');
+  } else {
+    btn.classList.add('following'); btn.textContent = '✓ অনুসরণ হচ্ছে';
+    showToast(name + '-কে অনুসরণ শুরু হয়েছে! 🎉');
+  }
+}
+
+function renderChats() {
+  const list = document.getElementById('chatList');
+  list.innerHTML = chatSampleData.map(c => `
+    <div class="chat-list-item ${c.unread ? 'chat-unread' : ''}" onclick="showToast('${c.name}-এর সাথে কথোপকথন')">
+      <div class="suggest-avatar" style="background:var(--${c.unread?'red':'green'});width:48px;height:48px;font-size:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;">${c.emoji}</div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:${c.unread?700:500};color:var(--text-dark);">${c.name}</div>
+        <div style="font-size:12.5px;color:var(--gray-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;">${c.lastMsg}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:11px;color:var(--gray-3);">${c.time}</div>
+        ${c.unread ? `<div style="margin-top:4px;background:var(--red);color:white;font-size:11px;font-weight:700;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-left:auto;">${c.unread}</div>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function renderNotifications() {
+  const list = document.getElementById('notifList');
+  list.innerHTML = notifications.map(n => `
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 20px;border-bottom:1px solid var(--gray-2);cursor:pointer;" onmouseenter="this.style.background='var(--gray-1)'" onmouseleave="this.style.background='white'">
+      <div style="width:40px;height:40px;border-radius:50%;background:${n.color};color:white;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">${n.icon}</div>
+      <div style="flex:1;">
+        <div style="font-size:13.5px;line-height:1.5;color:var(--text-dark);">${n.text}</div>
+        <div style="font-size:11.5px;color:var(--gray-3);margin-top:3px;">${n.time}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderMyProfile(user) {
+  const container = document.getElementById('myProfilePosts');
+  const all = [...samplePosts, ...JSON.parse(localStorage.getItem('chithi_posts') || '[]')];
+  const mine = all.filter(p => p.authorId === user.id || p.authorName === user.name);
+  if (mine.length === 0) {
+    container.innerHTML = `<div class="empty-feed"><div class="ef-icon">✏️</div><h4>এখনো কোনো পোস্ট নেই</h4><p>আপনার প্রথম পোস্টটি করুন!</p></div>`;
+    return;
+  }
+  container.innerHTML = mine.map(p => makePostHTML(p)).join('');
+}
+
+// ===== GENDER SECTION ACCESS =====
+function showGenderSection(section) {
+  const user = appState.currentUser;
+  const secDiv = document.getElementById('section-gender');
+  const title = document.getElementById('genderSectionTitle');
+  const badge = document.getElementById('genderBadgeEl');
+  const content = document.getElementById('genderFeedContent');
+
+  hideAllSections();
+  secDiv.style.display = 'block';
+
+  if (section === 'male') {
+    if (user.age >= 18 && user.gender === 'male') {
+      title.textContent = 'পুরুষ বিভাগ';
+      badge.outerHTML = '<span class="section-badge badge-male" id="genderBadgeEl">শুধু পুরুষ সদস্য</span>';
+      const malePosts = [...samplePosts].filter(p => p.authorGender === 'male');
+      content.innerHTML = malePosts.map(p => makePostHTML(p)).join('');
+    } else {
+      title.textContent = 'প্রবেশাধিকার নেই';
+      badge.outerHTML = '<span id="genderBadgeEl"></span>';
+      content.innerHTML = `<div class="access-denied"><div class="lock-icon">🔒</div><h3>প্রবেশাধিকার নেই</h3><p>পুরুষ বিভাগ শুধুমাত্র ১৮+ বয়সের পুরুষ সদস্যদের জন্য।<br><br>${user.age < 18 ? `আপনার বয়স ${user.age} বছর। ১৮ বছর হলে প্রবেশ করতে পারবেন।` : 'এই বিভাগে আপনার প্রবেশাধিকার নেই।'}</p></div>`;
+    }
+  } else if (section === 'female') {
+    if (user.age >= 18 && user.gender === 'female') {
+      title.textContent = 'মহিলা বিভাগ';
+      badge.outerHTML = '<span class="section-badge badge-female" id="genderBadgeEl">শুধু মহিলা সদস্য</span>';
+      const femalePosts = [...samplePosts].filter(p => p.authorGender === 'female');
+      content.innerHTML = femalePosts.map(p => makePostHTML(p)).join('');
+    } else {
+      title.textContent = 'প্রবেশাধিকার নেই';
+      badge.outerHTML = '<span id="genderBadgeEl"></span>';
+      content.innerHTML = `<div class="access-denied"><div class="lock-icon">🔒</div><h3>প্রবেশাধিকার নেই</h3><p>মহিলা বিভাগ শুধুমাত্র ১৮+ বয়সের মহিলা সদস্যদের জন্য।<br><br>${user.age < 18 ? `আপনার বয়স ${user.age} বছর। ১৮ বছর হলে প্রবেশ করতে পারবেন।` : 'এই বিভাগে আপনার প্রবেশাধিকার নেই।'}</p></div>`;
+    }
+  } else if (section === 'junior') {
+    if (user.age < 18) {
+      title.textContent = 'কিশোর বিভাগ';
+      badge.outerHTML = '<span class="section-badge badge-junior" id="genderBadgeEl">১৮ এর নিচে</span>';
+      content.innerHTML = `
+        <div style="padding:20px 0;">
+          <div style="background:linear-gradient(135deg,#e8f5e9,#f0fff4);border-radius:var(--radius);padding:24px;border:1.5px solid var(--green);margin-bottom:16px;">
+            <div style="font-size:32px;margin-bottom:10px;">🌱</div>
+            <div style="font-family:'Noto Serif Bengali',serif;font-size:18px;font-weight:700;color:var(--green-dark);margin-bottom:8px;">কিশোর বিভাগে স্বাগতম!</div>
+            <p style="font-size:14px;color:var(--text-mid);line-height:1.7;">এখানে তোমার মতো বয়সীদের পোস্ট দেখতে পারবে। পড়াশোনা, খেলাধুলা, বই, সংগীত - সব বিষয় নিয়ে কথা বলো!</p>
+          </div>
+          <div class="post-card" style="border-radius:var(--radius);border:1.5px solid var(--gray-2);">
+            <div class="post-header">
+              <div class="post-avatar" style="background:linear-gradient(135deg,var(--green),var(--green-light));">🌟</div>
+              <div class="post-meta"><div class="post-name">রাহেলা আক্তার</div><div class="post-time">৩০ মিনিট আগে • বয়স ১৫</div></div>
+            </div>
+            <div class="post-content">আজকে বিজ্ঞান মেলায় প্রথম হয়েছি! 🔬🎉 এত কষ্ট করেছিলাম প্রজেক্টের জন্য। স্যার বললেন জাতীয় পর্যায়ে যেতে পারব! #বিজ্ঞান #কিশোর</div>
+            <div class="post-actions">
+              <button class="post-action" onclick="showToast('লাইক! 👍')">🤍 লাইক</button>
+              <button class="post-action" onclick="showToast('মন্তব্য করুন')">💬 মন্তব্য</button>
+            </div>
+          </div>
+        </div>`;
+    } else {
+      title.textContent = 'প্রবেশাধিকার নেই';
+      badge.outerHTML = '<span id="genderBadgeEl"></span>';
+      content.innerHTML = `<div class="access-denied"><div class="lock-icon">🔒</div><h3>প্রবেশাধiকার নেই</h3><p>কিশোর বিভাগ শুধুমাত্র ১৮ বছরের নিচের সদস্যদের জন্য।<br>আপনার বয়স ${user.age} বছর।</p></div>`;
+    }
+  }
+}
+
+// ===== NAVIGATION =====
+function showSection(section) {
+  hideAllSections();
+  document.getElementById('section-' + section).style.display = 'block';
+  appState.currentSection = section;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  if (section === 'notifications') {
+    document.getElementById('notifBadge').style.display = 'none';
+  }
+}
+
+function hideAllSections() {
+  ['feed','gender','profile','messages','notifications','explore','stories','reels','groups','events']
+    .forEach(s => {
+      const el = document.getElementById('section-' + s);
+      if (el) el.style.display = 'none';
+    });
+}
+
+function doSearch(val) {
+  const results = document.getElementById('searchResults');
+  if (!val) { results.innerHTML = ''; return; }
+  const matches = sampleUsers.filter(u => u.name.includes(val) || val.length > 1);
+  results.innerHTML = matches.length ? matches.map(u => `
+    <div class="suggest-item" style="padding:12px 0;border-bottom:1px solid var(--gray-2);">
+      <div class="suggest-avatar" style="background:${u.color};width:44px;height:44px;font-size:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;">${u.emoji}</div>
+      <div class="suggest-info"><div class="sname">${u.name}</div><div class="smutual">${u.gender === 'male' ? 'পুরুষ' : 'মহিলা'} • ${u.mutuals}</div></div>
+      <button class="follow-btn" onclick="followUser(this,'${u.name}')">অনুসরণ</button>
+    </div>`).join('') :
+    `<div style="padding:20px 0;text-align:center;color:var(--gray-3);">কোনো ফলাফল পাওয়া যায়নি</div>`;
+}
+
+// ===== UTILS =====
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toastEl');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function closeModal() {
+  document.getElementById('postModal').classList.remove('open');
+}
+
+// ===== INIT =====
+window.onload = function() {
+  const session = localStorage.getItem('chithi_session');
+  if (session) {
+    try {
+      appState.currentUser = JSON.parse(session);
+      loadMainApp();
+    } catch(e) { showPage('authPage'); }
+  } else { showPage('authPage'); }
+
+  // Set max date for DOB (today)
+  const today = new Date().toISOString().split('T')[0];
+  const dobInput = document.getElementById('regDob');
+  if (dobInput) dobInput.max = today;
+};
+</script>
+</body>
+</html>
